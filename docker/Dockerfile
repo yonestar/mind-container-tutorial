@@ -20,17 +20,13 @@ RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
 # 4. Remove the installer script
     rm ~/anaconda.sh
 
-# Then we need to set the anaconda path inside the container
-# N.B. Running something like "export PATH=..." won't work,
-#      so we need to use the ENV instruction
-
 # Then we need to set the anaconda path inside the container, so
 # that we will use anaconda python by default.
 # N.B. Running something like "export PATH=..." won't work,
 #      so we need to use the ENV instruction
 ENV PATH /opt/conda/bin:$PATH
 
-# Exercise 1. Uncomment the line below, and install jupyter with conda"
+# Exercise 1. Uncomment the line below, and install jupyter with conda
 # RUN ["/bin/bash", "-c", ""]
 
 # Finally we set up an entrypoint, i.e. the first command that is run
