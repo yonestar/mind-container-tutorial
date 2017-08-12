@@ -6,8 +6,8 @@ FROM debian:latest
 
 # First, let's update the debian package manager
 RUN apt-get update
-# Then let's install wget to install conda
-RUN apt-get install -y wget
+# Then let's install wget and bzip2 to install conda
+RUN apt-get install -y wget bzip2
 
 # Now we have everything in our system to download miniconda
 # This command has four steps
