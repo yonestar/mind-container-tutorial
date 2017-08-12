@@ -1,0 +1,43 @@
+bootstrap: docker
+from: debian:latest
+
+# post: what to do after we've installed our base image
+%post
+  # Now we have a pretty basic base image, we might
+  # want to install some debian packages.
+
+  # First, let's update the debian package manager
+  apt-get update
+  # Then let's install wget and bzip2 to install conda
+  apt-get install -y wget bzip2
+
+  # Now we have everything in our system to download miniconda
+  # This command has four steps
+  # 1. Export the PATH to indicate where we will install miniconda
+  echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
+  # 2. Download the miniconda installer script and put it in ~/anaconda.sh
+      wget --quiet https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_64.sh -O ~/anaconda.sh && \
+  # 3. Run the installer script
+      /bin/bash ~/anaconda.sh -b -p /opt/conda && \
+  # 4. Remove the installer script
+      rm ~/anaconda.sh
+
+  # Then we need to set the anaconda path inside the container
+  # N.B. Running something like "export PATH=..." won't work,
+  #      so we need to use the ENV instruction
+  export PATH="/opt/conda/bin:$PATH"
+
+  # Exercise: install jupyter with conda
+  # yourlinehere
+
+# environment: what variables should be set in the environment?
+%environment
+  PATH="/opt/conda/bin:$PATH"
+
+
+# runscript: what to run when we fire up our container
+%runscript
+  # You can have complicated scripts, but since we'll be using this container
+  # interactively, we just start with bash.
+  echo "The singularity is near..."
+  exec /bin/bash
